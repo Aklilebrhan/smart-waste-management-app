@@ -1,0 +1,17 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+enum Role { RECEIVER GIVER ADMIN }
+enum RequestStatus { MATCHING ASSIGNED EN_ROUTE COLLECTED COMPLETED CANCELLED }
+model User { id String @id @default(cuid()) email String @unique passwordHash String role Role name String createdAt DateTime @default(now()) receiver ServiceReceiver? giver ServiceGiver? admin Admin? notifications Notification[] feedback Feedback[] }
+model ServiceReceiver { id String @id @default(cuid()) userId String @unique user User @relation(fields:[userId],references:[id]) requests WasteRequest[] }
+model ServiceGiver { id String @id @default(cuid()) userId String @unique user User @relation(fields:[userId],references:[id]) rating Float @default(0) available Boolean @default(false) serviceRadiusKm Float @default(10) vehicles Vehicle[] jobs Job[] }
+model Admin { id String @id @default(cuid()) userId String @unique user User @relation(fields:[userId],references:[id]) city String reports Report[] }
+model WasteRequest { id String @id @default(cuid()) receiverId String receiver ServiceReceiver @relation(fields:[receiverId],references:[id]) wasteType String estimatedKg Float latitude Float longitude Float address String imageUrls String[] status RequestStatus @default(MATCHING) job Job? createdAt DateTime @default(now()) }
+model Job { id String @id @default(cuid()) requestId String @unique request WasteRequest @relation(fields:[requestId],references:[id]) giverId String giver ServiceGiver @relation(fields:[giverId],references:[id]) status RequestStatus @default(ASSIGNED) vehicleAssignment VehicleAssignment? proof ProofOfCollection? payment Payment? }
+model Vehicle { id String @id @default(cuid()) giverId String giver ServiceGiver @relation(fields:[giverId],references:[id]) plateNumber String @unique capacityKg Float assignments VehicleAssignment[] }
+model VehicleAssignment { id String @id @default(cuid()) vehicleId String vehicle Vehicle @relation(fields:[vehicleId],references:[id]) jobId String @unique job Job @relation(fields:[jobId],references:[id]) driverName String assignedAt DateTime @default(now()) }
+model Payment { id String @id @default(cuid()) jobId String @unique job Job @relation(fields:[jobId],references:[id]) amount Int currency String @default("ETB") status String providerReference String? }
+model Notification { id String @id @default(cuid()) userId String user User @relation(fields:[userId],references:[id]) title String body String readAt DateTime? createdAt DateTime @default(now()) }
+model Feedback { id String @id @default(cuid()) userId String user User @relation(fields:[userId],references:[id]) jobId String rating Int comment String? }
+model Report { id String @id @default(cuid()) adminId String admin Admin @relation(fields:[adminId],references:[id]) type String payload Json createdAt DateTime @default(now()) }
+model ProofOfCollection { id String @id @default(cuid()) jobId String @unique job Job @relation(fields:[jobId],references:[id]) imageUrl String latitude Float longitude Float collectedAt DateTime @default(now()) }

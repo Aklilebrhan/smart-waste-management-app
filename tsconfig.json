@@ -1,0 +1,1 @@
+{"compilerOptions":{"strict":true,"jsx":"react-jsx","moduleResolution":"bundler","module":"ESNext","target":"ESNext","skipLibCheck":true,"noEmit":true},"include":["app","App.tsx"]}

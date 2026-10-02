@@ -1,0 +1,2 @@
+export type Role='RECEIVER'|'GIVER'|'ADMIN';export type RequestStatus='MATCHING'|'ASSIGNED'|'EN_ROUTE'|'COLLECTED'|'COMPLETED'|'CANCELLED';
+export type Coordinates={latitude:number;longitude:number};export type Provider={id:string;rating:number;available:boolean;capacityKg:number;serviceRadiusKm:number;location:Coordinates};export type WasteRequest={id:string;receiverId:string;status:RequestStatus;wasteType:string;estimatedKg:number;location:Coordinates;address:string;imageUrls:string[]};

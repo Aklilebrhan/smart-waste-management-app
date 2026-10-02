@@ -1,0 +1,24 @@
+{
+  "name": "smart-waste-management-app",
+  "version": "1.0.0",
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "expo": "~52.0.0",
+    "expo-image-picker": "~16.0.3",
+    "expo-location": "~18.0.3",
+    "expo-status-bar": "~2.0.0",
+    "react": "18.3.1",
+    "react-native": "0.76.1",
+    "react-native-maps": "1.18.0"
+  },
+  "devDependencies": {
+    "@types/react": "~18.3.3",
+    "typescript": "~5.3.3"
+  }
+}
